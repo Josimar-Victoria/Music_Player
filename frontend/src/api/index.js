@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:4000/'
 
+// Iniciar seccion 
 export const validateUser = async token => {
   try {
     const response = await axios.get(`${baseUrl}v1/api/user/login`, {

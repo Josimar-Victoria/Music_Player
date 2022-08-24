@@ -51,45 +51,41 @@ router.get('/getAll', async (req, res) => {
 })
 
 // Eliminar una canción
-router.delete('/delete/:id', async (req, res) => {
-  const filterSong = { _id: req.params.id }
+router.delete('/delete/:deleteId', async (req, res) => {
+  const filter = { _id: req.params.deleteId }
 
-  const song = await Song.deleteOne(filterSong)
-
-  if (song) {
-    return res
-      .status(200)
-      .send({ success: true, msg: 'Song deleted', Song: song })
+  const result = await Song.deleteOne(filter)
+  if (result.deletedCount === 1) {
+    res.status(200).send({ success: true, msg: 'Data Deleted' })
   } else {
-    return res.status(400).send({ success: false, msg: 'Song not found' })
+    res.status(200).send({ success: false, msg: 'Data Not Found' })
   }
 })
 
 // Atualizar una canción
-router.put('/update/:id', async (req, res) => {
-  const filterSong = { _id: req.params.id }
-
+router.put('/update/:updateId', async (req, res) => {
+  const filter = { _id: req.params.updateId }
   const options = {
-    new: true,
-    upsert: true
+    upsert: true,
+    new: true
   }
-
-  const updateSongs = {
-    name: req.body.name,
-    imageURL: req.body.imageURL,
-    songUrl: req.body.songUrl,
-    artist: req.body.artist,
-    album: req.body.album,
-    language: req.body.language,
-    category: req.body.category
-  }
-
   try {
-    const song = await Song.findOneAndUpdate(filterSong, options, updateSongs)
-
-    return res.status(200).send({ success: true, Song: song })
+    const result = await Song.findOneAndUpdate(
+      filter,
+      {
+        name: req.body.name,
+        imageURL: req.body.imageURL,
+        songUrl: req.body.songUrl,
+        album: req.body.album,
+        artist: req.body.artist,
+        language: req.body.language,
+        category: req.body.category
+      },
+      options
+    )
+    res.status(200).send({ artist: result })
   } catch (error) {
-    return res.status(400).send({ success: false, msg: error })
+    res.status(400).send({ success: false, msg: error })
   }
 })
 
