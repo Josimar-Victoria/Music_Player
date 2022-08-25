@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:4000/'
 
-// Iniciar seccion 
+// Iniciar seccion
 export const validateUser = async token => {
   try {
     const response = await axios.get(`${baseUrl}v1/api/user/login`, {
@@ -29,7 +29,9 @@ export const getAllUsers = async () => {
 // Eliminar Usuario
 export const removeUser = async userId => {
   try {
-    const response = await axios.delete(`${baseUrl}v1/api/user/delete/${userId}`)
+    const response = await axios.delete(
+      `${baseUrl}v1/api/user/delete/${userId}`
+    )
     return response
   } catch (error) {}
 }
@@ -77,5 +79,10 @@ export const getAllSongs = async () => {
   }
 }
 
-
-
+// CRAER canciones
+export const saveNewSong = async data => {
+  try {
+    const res = axios.post(`${baseUrl}v1/api/songs/save`, { ...data })
+    return (await res).data
+  } catch (error) {}
+}

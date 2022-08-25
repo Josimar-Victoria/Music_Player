@@ -27,6 +27,7 @@ import { IoMusicalNote } from 'react-icons/io5'
 import FilterButtons from './FilterButtons'
 import FileLoader from './FileLoader'
 import FileUploader from './FileUploader'
+import DisabledButton from './DisabledButton'
 // import AlertSuccess from './AlertSuccess'
 // import AlertError from './AlertError'
 
@@ -40,7 +41,18 @@ const DashboardNewSongs = () => {
   const [audioUploadProgress, setAudioUploadProgress] = useState(0)
   const [audioImageCover, setAudioImageCover] = useState(null)
 
-  const [{ allArtists, allAlbums }, dispatch] = useStateValue()
+  const [
+    {
+      allArtists,
+      allAlbums,
+      allSongs,
+      artistFilter,
+      albumFilter,
+      filterTerm,
+      languageFilter
+    },
+    dispatch
+  ] = useStateValue()
 
   useEffect(() => {
     if (!allArtists) {
@@ -74,6 +86,45 @@ const DashboardNewSongs = () => {
       setIsImageLoading(false)
       setIsAudioLoading(false)
     })
+  }
+
+  const saveSong = () => {
+    if (!songImageCover || !audioImageCover) {
+      // throw the alert
+    } else {
+      setIsAudioLoading(true)
+      setIsImageLoading(true)
+
+      const data = {
+        name: songName,
+        imageURL: songImageCover,
+        songUrl: audioImageCover,
+        artist: artistFilter,
+        album: albumFilter,
+        language: languageFilter,
+        category: filterTerm
+      }
+
+      saveNewSong(data).then(res => {
+        getAllSongs().then(songs => {
+          dispatch({
+            type: actionTypes.SET_ALL_SONGS,
+            allSongs: songs
+          })
+        })
+      })
+
+      setSongName(null)
+      setIsAudioLoading(false)
+      setIsImageLoading(false)
+      setSongImageCover(null)
+      setAudioImageCover(null)
+
+      dispatch({ type: actionTypes.SET_ALBUM_FILTER, albumFilter: null })
+      dispatch({ type: actionTypes.SET_ARTIST_FILTER, artistFilter: null })
+      dispatch({ type: actionTypes.SET_LENGUAGE_FILTER, languageFilter: null })
+      dispatch({ type: actionTypes.SET_FILTER_TEM, filterTerm: null })
+    }
   }
 
   return (
@@ -149,6 +200,19 @@ const DashboardNewSongs = () => {
               </div>
             )}
           </>
+        )}
+      </div>
+      <div className='flex items-center cursor-pointer justify-center w-60 p-4 '>
+        {isImageLoading || isAudioLoading ? (
+          <DisabledButton />
+        ) : (
+          <motion.button
+            whileTap={{ scale: 0.75 }}
+            className='px-8 py-2 w-full rounded-md text-white bg-red-600 hover:shadow-lg'
+            onClick={saveSong}
+          >
+            Save song
+          </motion.button>
         )}
       </div>
     </div>
