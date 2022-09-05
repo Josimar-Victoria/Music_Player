@@ -83,7 +83,7 @@ const Header = () => {
         className='flex items-center ml-auto cursor-pointer gap-2 relative'
       >
         <img
-          src={user?.user.imageUrl}
+          src={user?.user?.imageUrl}
           alt=''
           className='w-12 h-12 min-w-[44px] object-cover rounded-full shadow-lg'
           referrerPolicy='no-referrer'
@@ -105,10 +105,7 @@ const Header = () => {
               className='absolute z-10 top-12 p-3 right-0 w-275 gap-4 bg-card shadow-lg rounded-lg backdrop-blur-sm flex flex-col'
             >
               <NavLink to={'/userProfile'}>
-                <p
-                  w
-                  className='text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out'
-                >
+                <p className='text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out'>
                   Perfil
                 </p>
                 <hr />

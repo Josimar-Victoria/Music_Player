@@ -48,7 +48,7 @@ const DashboardUserCard = ({ data, index }) => {
     >
       <div
         className='absolute left-4 w-8 h-8 rounded-md flex items-center justify-center bg-gray-200'
-        onClick={() => handleDeleteUser(data._id)}
+        onClick={() => handleDeleteUser(data?._id)}
       >
         <MdDelete className='text-xl text-red-400 hover:text-red-500' />
       </div>
@@ -63,11 +63,11 @@ const DashboardUserCard = ({ data, index }) => {
       {/* user Name */}
 
       <p className='text-base text-textColor w-275 min-w-[160px] text-center'>
-        {data.name}
+        {data?.name}
       </p>
 
       <p className='text-base text-textColor w-275 min-w-[160px] text-center'>
-        {data.email}
+        {data?.email}
       </p>
 
       <p className='text-base text-textColor w-275 min-w-[160px] text-center'>

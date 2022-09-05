@@ -9,7 +9,9 @@ export const actionTypes = {
   SET_FILTER_TEM: 'SET_FILTER_TEM',
   SET_ARTIST_FILTER: 'SET_ARTIST_FILTER',
   SET_LENGUAGE_FILTER: 'SET_LENGUAGE_FILTER',
-  SET_ALBUM_FILTER: 'SET_ALBUM_FILTER'
+  SET_ALBUM_FILTER: 'SET_ALBUM_FILTER',
+
+  SET_ALERT_TYPE: 'SET_ALERT_TYPE'
 }
 
 const reducer = (state, action) => {
@@ -62,6 +64,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         albumFilter: action.albumFilter
+      }
+
+    case actionTypes.SET_ALERT_TYPE:
+      return {
+        ...state,
+        alertType: action.alertType
       }
     default:
       return state

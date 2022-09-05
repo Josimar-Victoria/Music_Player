@@ -1,15 +1,16 @@
 import React from 'react'
 import { BiCloudUpload } from 'react-icons/bi'
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-  deleteObject
-} from 'firebase/storage'
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../config/firebase.config'
+import { actionTypes } from '../context/reducer'
 
-const FileUploader = ({ updateStatus, setProgress, isLoading, isImage }) => {
+const FileUploader = ({
+  updateStatus,
+  setProgress,
+  isLoading,
+  isImage,
+  dispatch
+}) => {
   const uploadFile = e => {
     isLoading(true)
     const uploadedFile = e.target.files[0]
@@ -29,12 +30,37 @@ const FileUploader = ({ updateStatus, setProgress, isLoading, isImage }) => {
       },
       error => {
         console.log(error)
+        // Alert msg
+        dispatch({
+          type: actionTypes.SET_ALERT_TYPE,
+          alertType: 'danger'
+        })
+
+        setInterval(() => {
+          dispatch({
+            type: actionTypes.SET_ALERT_TYPE,
+            alertType: null
+          })
+        }, 4000)
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
           updateStatus(downloadURL)
           isLoading(false)
         })
+
+        // Alert msg
+        dispatch({
+          type: actionTypes.SET_ALERT_TYPE,
+          alertType: 'success'
+        })
+
+        setInterval(() => {
+          dispatch({
+            type: actionTypes.SET_ALERT_TYPE,
+            alertType: null
+          })
+        }, 4000)
       }
     )
   }

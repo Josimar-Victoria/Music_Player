@@ -83,6 +83,22 @@ export const getAllSongs = async () => {
 export const saveNewSong = async data => {
   try {
     const res = axios.post(`${baseUrl}v1/api/songs/save`, { ...data })
-    return (await res).data
+    return (await res).data.savedSong
+  } catch (error) {}
+}
+
+// CREAR ATISTA
+export const saveNewArtist = async data => {
+  try {
+    const res = axios.post(`${baseUrl}v1/api/artists/save`, { ...data })
+    return (await res).data.savedArtist
+  } catch (error) {}
+}
+
+//CREAR ALBUMS
+export const saveNewAlbum = async data => {
+  try {
+    const res = axios.post(`${baseUrl}v1/api/albums/save`, { ...data })
+    return (await res).data.savedAlbum
   } catch (error) {}
 }
