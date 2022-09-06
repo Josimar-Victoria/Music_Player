@@ -12,10 +12,10 @@ export { default as DashboardAlbums } from './DashboardAlbums'
 export { default as DashboardNewSongs } from './DashboardNewSongs'
 export { default as SongContainer } from './SongContainer'
 export { default as SongCard } from './SongCard'
-
+export { default as ArtistContainer } from './ArtistContainer'
 export { default as FilterButtons } from './FilterButtons'
 export { default as FileLoader } from './FileLoader'
 export { default as FileUploader } from './FileUploader'
 
-export { default as DisabledButton} from './DisabledButton'
+export { default as DisabledButton } from './DisabledButton'
 export { default as Alert } from './Alert'

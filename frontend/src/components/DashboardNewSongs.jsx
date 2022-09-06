@@ -1,14 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-  deleteObject
-} from 'firebase/storage'
+import React, { useEffect, useState } from 'react'
+import { ref, deleteObject } from 'firebase/storage'
 import { motion } from 'framer-motion'
-
-import { BiCloudUpload } from 'react-icons/bi'
 import { MdDelete } from 'react-icons/md'
 
 import { storage } from '../config/firebase.config'
@@ -23,7 +15,6 @@ import {
 } from '../api'
 import { actionTypes } from '../context/reducer'
 import { filterByLanguage, filters } from '../utils/supportfunctions'
-import { IoMusicalNote } from 'react-icons/io5'
 import FilterButtons from './FilterButtons'
 import FileLoader from './FileLoader'
 import FileUploader from './FileUploader'
@@ -61,7 +52,8 @@ const DashboardNewSongs = () => {
       artistFilter,
       albumFilter,
       filterTerm,
-      languageFilter
+      languageFilter,
+      alertType
     },
     dispatch
   ] = useStateValue()
@@ -96,7 +88,7 @@ const DashboardNewSongs = () => {
       // Alert msg
       dispatch({
         type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'success'
+        alertType: 'danger'
       })
 
       setInterval(() => {
@@ -110,19 +102,6 @@ const DashboardNewSongs = () => {
     const deleteRef = ref(storage, url)
 
     deleteObject(deleteRef).then(() => {
-      // Alert msg
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'danger'
-      })
-
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
-
       setSongImageCover(null)
       setAudioImageCover(null)
       setArtistImageCover(null)
@@ -132,6 +111,18 @@ const DashboardNewSongs = () => {
       setIsArtistUploading(false)
       setIsAlbumUploading(false)
     })
+    // Alert msg
+    dispatch({
+      type: actionTypes.SET_ALERT_TYPE,
+      alertType: 'success'
+    })
+
+    setInterval(() => {
+      dispatch({
+        type: actionTypes.SET_ALERT_TYPE,
+        alertType: null
+      })
+    }, 4000)
   }
 
   const handleSaveSong = () => {
@@ -183,7 +174,6 @@ const DashboardNewSongs = () => {
           alertType: null
         })
       }, 4000)
-
       setSongName(null)
       setIsAudioLoading(false)
       setIsImageLoading(false)
@@ -354,7 +344,6 @@ const DashboardNewSongs = () => {
                 updateStatus={setAudioImageCover}
                 setProgress={setAudioUploadProgress}
                 isLoading={setIsAudioLoading}
-                dispatch={dispatch}
                 isImage={false}
               />
             ) : (

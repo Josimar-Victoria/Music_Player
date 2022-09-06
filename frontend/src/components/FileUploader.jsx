@@ -3,14 +3,11 @@ import { BiCloudUpload } from 'react-icons/bi'
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../config/firebase.config'
 import { actionTypes } from '../context/reducer'
+import { useStateValue } from '../context/StateProvider'
 
-const FileUploader = ({
-  updateStatus,
-  setProgress,
-  isLoading,
-  isImage,
-  dispatch
-}) => {
+const FileUploader = ({ updateStatus, setProgress, isLoading, isImage }) => {
+  const [{ alertType }, dispatch] = useStateValue()
+
   const uploadFile = e => {
     isLoading(true)
     const uploadedFile = e.target.files[0]
@@ -48,7 +45,6 @@ const FileUploader = ({
           updateStatus(downloadURL)
           isLoading(false)
         })
-
         // Alert msg
         dispatch({
           type: actionTypes.SET_ALERT_TYPE,

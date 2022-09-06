@@ -1,6 +1,9 @@
 import React from 'react'
+import { useStateValue } from '../context/StateProvider'
 
 const FileLoader = ({ progress }) => {
+  const [{ alertType }, dispatch] = useStateValue()
+
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
       <p className='text-xl font-semibold text-textColor'>
