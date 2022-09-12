@@ -2,9 +2,50 @@ import React, { useState } from 'react'
 
 import { motion } from 'framer-motion'
 import { MdDelete } from 'react-icons/md'
+import { deleteObject, ref } from 'firebase/storage'
+import { deleteArtistas, getAllArtists } from '../api'
+import { actionTypes } from '../context/reducer'
+import { storage } from '../config/firebase.config'
+import { useStateValue } from '../context/StateProvider'
 
 const ArtistCard = ({ data, index }) => {
   const [isDelete, setIsDelete] = useState(false)
+  const [alert, setAlert] = useState(false)
+  const [alertMsg, setAlertMsg] = useState(null)
+  const [
+    { allArtists, song, isSongPlaying, alertType },
+    dispatch
+  ] = useStateValue()
+
+  const handleDeleteArtist = data => {
+    // const deleteRef = ref(storage, data.imageURL)
+
+    // deleteObject(deleteRef).then(() => {})
+    console.log({ data })
+
+    deleteArtistas(data._id).then(res => {
+      if (res.data.success) {
+        setAlert('success')
+        setAlertMsg(res.data.msg)
+        getAllArtists().then(data => {
+          dispatch({
+            type: actionTypes.SET_ALL_ARTISTS,
+            allArtists: data
+          })
+        })
+        setTimeout(() => {
+          setAlert(false)
+        }, 4000)
+      } else {
+        setAlert('error')
+        setAlertMsg(res.data.msg)
+        setTimeout(() => {
+          setAlert(false)
+        }, 4000)
+      }
+    })
+    console.log({ data })
+  }
   return (
     <motion.div
       initial={{ opacity: 0, translateX: -50 }}
@@ -40,7 +81,12 @@ const ArtistCard = ({ data, index }) => {
           </p>
           <div className='flex items-center w-full justify-center gap-3'>
             <div className='bg-red-300 px-3 rounded-md'>
-              <p className='text-headingColor text-sm'>Yes</p>
+              <p
+                className='text-headingColor text-sm'
+                onClick={() => handleDeleteArtist(data)}
+              >
+                Yes
+              </p>
             </div>
             <div
               className='bg-green-300 px-3 rounded-md'

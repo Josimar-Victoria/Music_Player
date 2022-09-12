@@ -49,6 +49,14 @@ export const changingUserRole = async (userId, role) => {
   }
 }
 
+// CREAR ATISTA
+export const saveNewArtist = async data => {
+  try {
+    const res = axios.post(`${baseUrl}v1/api/artists/save`, { ...data })
+    return (await res).data.savedArtist
+  } catch (error) {}
+}
+
 // Obter todos los artistas
 export const getAllArtists = async () => {
   try {
@@ -57,6 +65,22 @@ export const getAllArtists = async () => {
   } catch (error) {
     console.log(error.message)
   }
+}
+
+// Eliminar artista
+export const deleteArtistas = async id => {
+  try {
+    const res = axios.delete(`${baseUrl}v1/api/albums/delete/${id}`)
+    return res
+  } catch (error) {}
+}
+
+//CREAR ALBUMS
+export const saveNewAlbum = async data => {
+  try {
+    const res = axios.post(`${baseUrl}v1/api/albums/save`, { ...data })
+    return (await res).data.savedAlbum
+  } catch (error) {}
 }
 
 // Obter todos los albunes
@@ -69,6 +93,21 @@ export const getAllAlbums = async () => {
   }
 }
 
+// Eliminar Album
+export const deleteAlbum = async id => {
+  try {
+    const res = await axios.delete(`${baseUrl}v1/api/albums/delete/${id}`)
+    return res
+  } catch (error) {}
+}
+// CRAER canciones
+export const saveNewSong = async data => {
+  try {
+    const res = axios.post(`${baseUrl}v1/api/songs/save`, { ...data })
+    return (await res).data.savedSong
+  } catch (error) {}
+}
+
 // Obter todos las canciones
 export const getAllSongs = async () => {
   try {
@@ -79,26 +118,10 @@ export const getAllSongs = async () => {
   }
 }
 
-// CRAER canciones
-export const saveNewSong = async data => {
+// Eliminar Cancion
+export const deleteSong = async id => {
   try {
-    const res = axios.post(`${baseUrl}v1/api/songs/save`, { ...data })
-    return (await res).data.savedSong
-  } catch (error) {}
-}
-
-// CREAR ATISTA
-export const saveNewArtist = async data => {
-  try {
-    const res = axios.post(`${baseUrl}v1/api/artists/save`, { ...data })
-    return (await res).data.savedArtist
-  } catch (error) {}
-}
-
-//CREAR ALBUMS
-export const saveNewAlbum = async data => {
-  try {
-    const res = axios.post(`${baseUrl}v1/api/albums/save`, { ...data })
-    return (await res).data.savedAlbum
+    const res = await axios.delete(`${baseUrl}v1/api/songs/delete/${id}`)
+    return res
   } catch (error) {}
 }

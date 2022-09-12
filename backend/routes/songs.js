@@ -51,8 +51,8 @@ router.get('/getAll', async (req, res) => {
 })
 
 // Eliminar una canción
-router.delete('/delete/:deleteId', async (req, res) => {
-  const filter = { _id: req.params.deleteId }
+router.delete('/delete/:id', async (req, res) => {
+  const filter = { _id: req.params.id }
 
   const result = await Song.deleteOne(filter)
   if (result.deletedCount === 1) {
@@ -63,8 +63,8 @@ router.delete('/delete/:deleteId', async (req, res) => {
 })
 
 // Atualizar una canción
-router.put('/update/:updateId', async (req, res) => {
-  const filter = { _id: req.params.updateId }
+router.put('/update/:id', async (req, res) => {
+  const filter = { _id: req.params.id }
   const options = {
     upsert: true,
     new: true

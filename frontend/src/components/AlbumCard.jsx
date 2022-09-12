@@ -2,9 +2,50 @@ import React, { useState } from 'react'
 
 import { motion } from 'framer-motion'
 import { MdDelete } from 'react-icons/md'
+import { useStateValue } from '../context/StateProvider'
+import { actionTypes } from '../context/reducer'
+import { deleteAlbum, getAllAlbums } from '../api'
+import { storage } from '../config/firebase.config'
+import { deleteObject, ref } from 'firebase/storage'
 
 const AlbumCard = ({ data, index }) => {
   const [isDelete, setIsDelete] = useState(false)
+  const [alert, setAlert] = useState(false)
+  const [alertMsg, setAlertMsg] = useState(null)
+
+  const [
+    { allAlbums, song, isSongPlaying, alertType },
+    dispatch
+  ] = useStateValue()
+
+  const handleDeleteAlbum = data => {
+    // const deleteRef = ref(storage, data.imageURL)
+
+    // deleteObject(deleteRef).then(() => {})
+
+    deleteAlbum(data._id).then(res => {
+      if (res.data.success) {
+        setAlert('success')
+        setAlertMsg(res.data.msg)
+        getAllAlbums().then(data => {
+          dispatch({
+            type: actionTypes.SET_ALL_ALBUMS,
+            allAlbums: data
+          })
+        })
+        setTimeout(() => {
+          setAlert(false)
+        }, 4000)
+      } else {
+        setAlert('error')
+        setAlertMsg(res.data.msg)
+        setTimeout(() => {
+          setAlert(false)
+        }, 4000)
+      }
+    })
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, translateX: -50 }}
@@ -17,8 +58,7 @@ const AlbumCard = ({ data, index }) => {
         className='w-full h-40 object-cover rounded-md'
         alt=''
       />
-
-      <p className='text-base text-textColor'>{data.name}</p>
+      {data.name.length > 20 ? `${data.name.slice(0, 15)}..` : data.name}
 
       <motion.i
         className='absolute bottom-2 right-2'
@@ -39,7 +79,10 @@ const AlbumCard = ({ data, index }) => {
             Are you sure do you want to delete this?
           </p>
           <div className='flex items-center w-full justify-center gap-3'>
-            <div className='bg-red-300 px-3 rounded-md'>
+            <div
+              className='bg-red-300 px-3 rounded-md'
+              onClick={() => handleDeleteAlbum(data)}
+            >
               <p className='text-headingColor text-sm'>Yes</p>
             </div>
             <div
