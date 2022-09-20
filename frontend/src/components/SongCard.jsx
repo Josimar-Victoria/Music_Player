@@ -7,15 +7,18 @@ import { actionTypes } from '../context/reducer'
 import { storage } from '../config/firebase.config'
 import { deleteObject, ref } from 'firebase/storage'
 
-const SongCard = ({ data }) => {
+const SongCard = ({ data, index }) => {
   const [isDelete, setIsDeleted] = useState(false)
-  const [{ alertType, allSongs }, dispatch] = useStateValue()
+  const [
+    { alertType, allSongs, isSongPlaying, songIndex },
+    dispatch
+  ] = useStateValue()
 
   const handleDeleteSong = data => {
     const deleteRef = ref(storage, data?.imageURL)
 
     deleteObject(deleteRef).then(() => {})
-    
+
     deleteSong(data._id).then(res => {
       if (res.data) {
         getAllSongs().then(data => {
@@ -28,12 +31,28 @@ const SongCard = ({ data }) => {
     })
   }
 
+  const handleAddToContext = () => {
+    if (!isSongPlaying) {
+      dispatch({
+        type: actionTypes.SET_ISSONG_PLAYING,
+        isSongPlaying: true
+      })
+    }
+
+    if (songIndex !== index) {
+      dispatch({
+        type: actionTypes.SET_SONG_INDEXE,
+        songIndex: index,
+      });
+    }
+  }
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.6 }}
       className='relative w-40 min-w-210 px-2 cursor-pointer hover:bg-card bg-gray-100 shadow-md rounded-lg flex flex-col items-center'
+      onClick={handleAddToContext}
     >
       <div className='w-40 min-w-[160px] h-40 min-h-[169px] rounded-lg drop-shadow-lg relative overflow-hidden'>
         <motion.img

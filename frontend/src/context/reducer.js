@@ -6,12 +6,17 @@ export const actionTypes = {
   SET_ALL_ARTISTS: 'SET_ALL_ARTISTS',
 
   // FILTER TYPE
+  SET_SEARCH_TERM: 'SET_SEARCH_TERM',
   SET_FILTER_TEM: 'SET_FILTER_TEM',
   SET_ARTIST_FILTER: 'SET_ARTIST_FILTER',
   SET_LENGUAGE_FILTER: 'SET_LENGUAGE_FILTER',
   SET_ALBUM_FILTER: 'SET_ALBUM_FILTER',
 
-  SET_ALERT_TYPE: 'SET_ALERT_TYPE'
+  SET_ALERT_TYPE: 'SET_ALERT_TYPE',
+
+  //Player
+  SET_ISSONG_PLAYING: 'SET_ISSONG_PLAYING',
+  SET_SONG_INDEXE: 'SET_SONG_INDEXE'
 }
 
 const reducer = (state, action) => {
@@ -45,6 +50,11 @@ const reducer = (state, action) => {
       }
 
     // FILTER CASE
+    case actionTypes.SET_SEARCH_TERM:
+      return {
+        ...state,
+        searchTerm: action.searchTerm
+      }
     case actionTypes.SET_FILTER_TEM:
       return {
         ...state,
@@ -70,6 +80,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         alertType: action.alertType
+      }
+
+    // Player
+    case actionTypes.SET_ISSONG_PLAYING:
+      return {
+        ...state,
+        isSongPlaying: action.isSongPlaying
+      }
+    case actionTypes.SET_SONG_INDEXE:
+      return {
+        ...state,
+        songIndex: action.songIndex
       }
     default:
       return state

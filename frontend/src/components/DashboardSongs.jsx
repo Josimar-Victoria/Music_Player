@@ -7,10 +7,12 @@ import { useStateValue } from '../context/StateProvider'
 import { actionTypes } from '../context/reducer'
 import { getAllSongs } from '../api'
 import SongContainer from './SongContainer'
+import { motion } from 'framer-motion'
 
 const DashboardSongs = () => {
   const [songFilter, setSongFilter] = useState('')
   const [isFoucs, setIsFoucs] = useState(false)
+  const [filteredSongs, setFilteredSongs] = useState(null)
   const [{ allSongs }, dispatch] = useStateValue()
 
   useEffect(() => {
@@ -23,6 +25,20 @@ const DashboardSongs = () => {
       })
     }
   }, [allSongs, dispatch])
+
+  useEffect(() => {
+    if (songFilter.length > 0) {
+      const filtered = allSongs.filter(
+        data =>
+          data.artist.toLowerCase().includes(songFilter) ||
+          data.language.toLowerCase().includes(songFilter) ||
+          data.name.toLowerCase().includes(songFilter)
+      )
+      setFilteredSongs(filtered)
+    } else {
+      setFilteredSongs(null)
+    }
+  }, [songFilter, allSongs, filteredSongs])
 
   return (
     <div className='w-full p-4 flex items-center justify-center flex-col'>
@@ -44,9 +60,19 @@ const DashboardSongs = () => {
           onBlur={() => setIsFoucs(false)}
           onFocus={() => setIsFoucs(true)}
         />
-        <i>
-          <AiOutlineClear className='text-2xl text-textColor cursor-pointer' />
-        </i>
+        {songFilter && (
+          <motion.i
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            whileTap={{ scale: 0.75 }}
+            onClick={() => {
+              setSongFilter('')
+              setFilteredSongs(null)
+            }}
+          >
+            <AiOutlineClear className='text-3xl text-textColor cursor-pointer' />
+          </motion.i>
+        )}
       </div>
       {/* Main Container */}
       <div className='relative w-full my-4 p-4 py-16 border border-gray-300 rounded-md'>
@@ -55,10 +81,10 @@ const DashboardSongs = () => {
             <span className='text-sm font-semibold text-textColor'>
               Count :
             </span>
-            {allSongs?.length}
+            {filteredSongs ? filteredSongs?.length : allSongs?.length}
           </p>
         </div>
-        <SongContainer data={allSongs} />
+        <SongContainer data={filteredSongs ? filteredSongs : allSongs} />
       </div>
     </div>
   )

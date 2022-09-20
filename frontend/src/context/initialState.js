@@ -6,9 +6,14 @@ export const initialState = {
   allArtists: null,
 
   // FILTER STATE
-  filterTerm: "all",
+  searchTerm: "",
+  filterTerm: 'all',
   artistFilter: null,
   languageFilter: null,
   albumFilter: null,
   alertType: null,
+
+  // Player
+  isSongPlaying: false,
+  songIndex: 0
 }
