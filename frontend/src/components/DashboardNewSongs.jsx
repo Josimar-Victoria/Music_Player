@@ -85,18 +85,18 @@ const DashboardNewSongs = () => {
       setIsArtistUploading(true)
       setIsAlbumUploading(true)
 
-      // Alert msg
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'danger'
-      })
+      // // Alert msg
+      // dispatch({
+      //   type: actionTypes.SET_ALERT_TYPE,
+      //   alertType: 'danger'
+      // })
 
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
+      // setInterval(() => {
+      //   dispatch({
+      //     type: actionTypes.SET_ALERT_TYPE,
+      //     alertType: null
+      //   })
+      // }, 4000)
     }
 
     const deleteRef = ref(storage, url)
@@ -112,33 +112,33 @@ const DashboardNewSongs = () => {
       setIsAlbumUploading(false)
     })
     // Alert msg
-    dispatch({
-      type: actionTypes.SET_ALERT_TYPE,
-      alertType: 'success'
-    })
+    // dispatch({
+    //   type: actionTypes.SET_ALERT_TYPE,
+    //   alertType: 'success'
+    // })
 
-    setInterval(() => {
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: null
-      })
-    }, 4000)
+    // setInterval(() => {
+    //   dispatch({
+    //     type: actionTypes.SET_ALERT_TYPE,
+    //     alertType: null
+    //   })
+    // }, 4000)
   }
 
   const handleSaveSong = () => {
     if (!songImageCover || !audioImageCover) {
       // throw the alert
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'danger'
-      })
+      // dispatch({
+      //   type: actionTypes.SET_ALERT_TYPE,
+      //   alertType: 'danger'
+      // })
 
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
+      // setInterval(() => {
+      //   dispatch({
+      //     type: actionTypes.SET_ALERT_TYPE,
+      //     alertType: null
+      //   })
+      // }, 4000)
     } else {
       setIsAudioLoading(true)
       setIsImageLoading(true)
@@ -163,17 +163,17 @@ const DashboardNewSongs = () => {
       })
 
       // Alert msg
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'success'
-      })
+      // dispatch({
+      //   type: actionTypes.SET_ALERT_TYPE,
+      //   alertType: 'success'
+      // })
 
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
+      // setInterval(() => {
+      //   dispatch({
+      //     type: actionTypes.SET_ALERT_TYPE,
+      //     alertType: null
+      //   })
+      // }, 4000)
       setSongName(null)
       setIsAudioLoading(false)
       setIsImageLoading(false)
@@ -190,17 +190,17 @@ const DashboardNewSongs = () => {
   const handleSaveArtist = artist => {
     if (!artistImageCover || !artistName || !instagram) {
       // Alert msg
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'danger'
-      })
+      // dispatch({
+      //   type: actionTypes.SET_ALERT_TYPE,
+      //   alertType: 'danger'
+      // })
 
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
+      // setInterval(() => {
+      //   dispatch({
+      //     type: actionTypes.SET_ALERT_TYPE,
+      //     alertType: null
+      //   })
+      // }, 4000)
     } else {
       setIsArtistUploading(true)
       const data = {
@@ -217,18 +217,18 @@ const DashboardNewSongs = () => {
             allArtists: data
           })
         })
-        // Alert msg
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: 'success'
-        })
+        // // Alert msg
+        // dispatch({
+        //   type: actionTypes.SET_ALERT_TYPE,
+        //   alertType: 'success'
+        // })
 
-        setInterval(() => {
-          dispatch({
-            type: actionTypes.SET_ALERT_TYPE,
-            alertType: null
-          })
-        }, 4000)
+        // setInterval(() => {
+        //   dispatch({
+        //     type: actionTypes.SET_ALERT_TYPE,
+        //     alertType: null
+        //   })
+        // }, 4000)
       })
 
       setIsArtistUploading(false)
@@ -242,17 +242,17 @@ const DashboardNewSongs = () => {
   const handleSaveAlbum = () => {
     if (!albumImageCover || !albumName) {
       // Alert msg
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'danger'
-      })
+      // dispatch({
+      //   type: actionTypes.SET_ALERT_TYPE,
+      //   alertType: 'danger'
+      // })
 
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
+      // setInterval(() => {
+      //   dispatch({
+      //     type: actionTypes.SET_ALERT_TYPE,
+      //     alertType: null
+      //   })
+      // }, 4000)
     } else {
       setIsAlbumUploading(true)
 
@@ -269,18 +269,18 @@ const DashboardNewSongs = () => {
         })
       })
 
-      // Alert msg
-      dispatch({
-        type: actionTypes.SET_ALERT_TYPE,
-        alertType: 'success'
-      })
+      // // Alert msg
+      // dispatch({
+      //   type: actionTypes.SET_ALERT_TYPE,
+      //   alertType: 'success'
+      // })
 
-      setInterval(() => {
-        dispatch({
-          type: actionTypes.SET_ALERT_TYPE,
-          alertType: null
-        })
-      }, 4000)
+      // setInterval(() => {
+      //   dispatch({
+      //     type: actionTypes.SET_ALERT_TYPE,
+      //     alertType: null
+      //   })
+      // }, 4000)
 
       setIsAlbumUploading(false)
       setAlbumImageCover(null)

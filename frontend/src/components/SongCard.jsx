@@ -1,12 +1,31 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { IoTrash } from 'react-icons/io5'
+import { deleteSong, getAllSongs } from '../api'
+import { useStateValue } from '../context/StateProvider'
+import { actionTypes } from '../context/reducer'
+import { storage } from '../config/firebase.config'
+import { deleteObject, ref } from 'firebase/storage'
 
 const SongCard = ({ data }) => {
   const [isDelete, setIsDeleted] = useState(false)
+  const [{ alertType, allSongs }, dispatch] = useStateValue()
 
-  const handleDelete = () => {
-    // setIsDeleted(true)
+  const handleDeleteSong = data => {
+    const deleteRef = ref(storage, data?.imageURL)
+
+    deleteObject(deleteRef).then(() => {})
+    
+    deleteSong(data._id).then(res => {
+      if (res.data) {
+        getAllSongs().then(data => {
+          dispatch({
+            type: actionTypes.SET_ALL_SONGS,
+            allSongs: data
+          })
+        })
+      }
+    })
   }
 
   return (
@@ -58,7 +77,7 @@ const SongCard = ({ data }) => {
             <motion.button
               whileTap={{ scale: 0.7 }}
               className='px-2 py-1 text-sm uppercase bg-red-300 rounded-md hover:bg-red-500'
-              onClick={handleDelete}
+              onClick={() => handleDeleteSong(data)}
             >
               Yes
             </motion.button>

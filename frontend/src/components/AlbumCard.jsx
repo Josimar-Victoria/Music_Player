@@ -1,10 +1,31 @@
 import React, { useState } from 'react'
-
+import { deleteAlbum, getAllAlbums } from '../api'
 import { motion } from 'framer-motion'
+import { useStateValue } from '../context/StateProvider'
 import { MdDelete } from 'react-icons/md'
+import { actionTypes } from '../context/reducer'
+import { deleteObject, ref } from 'firebase/storage'
+import { storage } from '../config/firebase.config'
 
 const AlbumCard = ({ data, index }) => {
   const [isDelete, setIsDelete] = useState(false)
+  const [{ alertType, allAlbums }, dispatch] = useStateValue()
+
+  const handleDeleteAlbum = async data => {
+    const deleteRef = ref(storage, data?.imageURL)
+
+    deleteObject(deleteRef).then(() => {})
+    deleteAlbum(data._id).then(res => {
+      if (res.data) {
+        getAllAlbums().then(data => {
+          dispatch({
+            type: actionTypes.SET_ALL_ALBUMS,
+            allAlbums: data
+          })
+        })
+      }
+    })
+  }
   return (
     <motion.div
       initial={{ opacity: 0, translateX: -50 }}
@@ -40,7 +61,12 @@ const AlbumCard = ({ data, index }) => {
           </p>
           <div className='flex items-center w-full justify-center gap-3'>
             <div className='bg-red-300 px-3 rounded-md'>
-              <p className='text-headingColor text-sm'>Yes</p>
+              <p
+                className='text-headingColor text-sm'
+                onClick={() => handleDeleteAlbum(data)}
+              >
+                Yes
+              </p>
             </div>
             <div
               className='bg-green-300 px-3 rounded-md'

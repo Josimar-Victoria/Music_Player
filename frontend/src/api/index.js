@@ -59,16 +59,21 @@ export const getAllArtists = async () => {
   }
 }
 
-// Obter todos los albunes
-export const getAllAlbums = async () => {
+// CREAR ATISTA
+export const saveNewArtist = async data => {
   try {
-    const response = await axios.get(`${baseUrl}v1/api/albums/getAll`)
-    return response.data.albums
-  } catch (error) {
-    console.log(error.message)
-  }
+    const res = axios.post(`${baseUrl}v1/api/artists/save`, { ...data })
+    return (await res).data.savedArtist
+  } catch (error) {}
 }
 
+// Eliminar Artist
+export const deleteArtists = async id => {
+  try {
+    const res = await axios.delete(`${baseUrl}v1/api/artists/delete/${id}`)
+    return res
+  } catch (error) {}
+}
 // Obter todos las canciones
 export const getAllSongs = async () => {
   try {
@@ -87,12 +92,22 @@ export const saveNewSong = async data => {
   } catch (error) {}
 }
 
-// CREAR ATISTA
-export const saveNewArtist = async data => {
+// Eliminar canciones
+export const deleteSong = async id => {
   try {
-    const res = axios.post(`${baseUrl}v1/api/artists/save`, { ...data })
-    return (await res).data.savedArtist
+    const res = await axios.delete(`${baseUrl}v1/api/songs/delete/${id}`)
+    return res
   } catch (error) {}
+}
+
+// Obter todos los albunes
+export const getAllAlbums = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}v1/api/albums/getAll`)
+    return response.data.albums
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 //CREAR ALBUMS
@@ -100,5 +115,13 @@ export const saveNewAlbum = async data => {
   try {
     const res = axios.post(`${baseUrl}v1/api/albums/save`, { ...data })
     return (await res).data.savedAlbum
+  } catch (error) {}
+}
+
+// Eliminar Album
+export const deleteAlbum = async id => {
+  try {
+    const res = await axios.delete(`${baseUrl}v1/api/albums/delete/${id}`)
+    return res
   } catch (error) {}
 }
